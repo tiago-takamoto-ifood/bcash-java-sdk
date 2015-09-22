@@ -67,8 +67,6 @@ public class TransactionRequest {
 	private Date maturityDate;
 
 	private String bankSlipDescription;
-	
-	private String deviceId;
 
 	/**
 	 * Recupera o e-mail da loja cadastrada no Bcash.
@@ -81,8 +79,8 @@ public class TransactionRequest {
 
 	/**
 	 * E-mail da loja cadastrada no Bcash.<br>
-	 * <i>Tamanho máximo: 80 caracteres</i>.<br>
-	 * <b>Campo obrigatório</b>
+	 * <i>Tamanho mï¿½ximo: 80 caracteres</i>.<br>
+	 * <b>Campo obrigatï¿½rio</b>
 	 * 
 	 * @param sellerMail
 	 *            ex.: empresa@provedor.com
@@ -101,8 +99,8 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Identificador do pedido atribuído da sua loja.<br>
-	 * <i>Tamanho máximo: 50 caracteres</i>
+	 * Identificador do pedido atribuï¿½do da sua loja.<br>
+	 * <i>Tamanho mï¿½ximo: 50 caracteres</i>
 	 * 
 	 * @param orderId
 	 *            ex.: 123
@@ -122,7 +120,7 @@ public class TransactionRequest {
 
 	/**
 	 * Objeto {@link Customer}.<br>
-	 * <b>Campo obrigatório</b>
+	 * <b>Campo obrigatï¿½rio</b>
 	 * 
 	 * @param buyer
 	 */
@@ -131,7 +129,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Recupera o campo de Livre Digitação.
+	 * Recupera o campo de Livre Digitaï¿½ï¿½o.
 	 * 
 	 * @return free
 	 */
@@ -140,8 +138,8 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Campo de Livre Digitação. Pode ser utilizado para algum parâmetro adicional de identificação da venda.<br>
-	 * <i>Tamanho máximo: 255 caracteres</i>
+	 * Campo de Livre Digitaï¿½ï¿½o. Pode ser utilizado para algum parï¿½metro adicional de identificaï¿½ï¿½o da venda.<br>
+	 * <i>Tamanho mï¿½ximo: 255 caracteres</i>
 	 * 
 	 * @param free
 	 *            ex.: compra teste
@@ -191,7 +189,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Recupera o valor total do desconto atribuído pela loja.
+	 * Recupera o valor total do desconto atribuï¿½do pela loja.
 	 * 
 	 * @return discount
 	 */
@@ -200,7 +198,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Valor total do desconto atribuído pela loja.<br>
+	 * Valor total do desconto atribuï¿½do pela loja.<br>
 	 * 
 	 * 
 	 * @param discount
@@ -211,7 +209,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Recupera o valor total do acréscimo feito pela loja.
+	 * Recupera o valor total do acrï¿½scimo feito pela loja.
 	 * 
 	 * @return addition
 	 */
@@ -220,7 +218,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Valor total do acréscimo feito pela loja.
+	 * Valor total do acrï¿½scimo feito pela loja.
 	 * 
 	 * @param addition
 	 *            ex.: new BigDecimal("2.25")
@@ -240,7 +238,7 @@ public class TransactionRequest {
 
 	/**
 	 * Objeto {@link PaymentMethod}.<br>
-	 * <b>Campo obrigatório</b>
+	 * <b>Campo obrigatï¿½rio</b>
 	 * 
 	 * @param paymentMethod
 	 */
@@ -249,7 +247,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Recupera a URL que a loja ir receber as informações de alteração de status da transação.
+	 * Recupera a URL que a loja ir receber as informaï¿½ï¿½es de alteraï¿½ï¿½o de status da transaï¿½ï¿½o.
 	 * 
 	 * @return urlNotification
 	 */
@@ -258,8 +256,8 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * URL que a loja ir receber as informações de alteração de status da transação.<br>
-	 * <i>Tamanho máximo: 255 caracteres</i>
+	 * URL que a loja ir receber as informaï¿½ï¿½es de alteraï¿½ï¿½o de status da transaï¿½ï¿½o.<br>
+	 * <i>Tamanho mï¿½ximo: 255 caracteres</i>
 	 * 
 	 * 
 	 * @param urlNotification
@@ -280,7 +278,7 @@ public class TransactionRequest {
 
 	/**
 	 * Lista de produtos.<br>
-	 * <b>Campo obrigatório</b>.<br>
+	 * <b>Campo obrigatï¿½rio</b>.<br>
 	 * 
 	 * *Obs.: Preencher a lista com o objeto {@link Product}
 	 * 
@@ -291,7 +289,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Recupera a quantidade de Parcelas que a compra será processada.
+	 * Recupera a quantidade de Parcelas que a compra serï¿½ processada.
 	 * 
 	 * @return installments
 	 */
@@ -300,7 +298,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Quantidade de Parcelas que a compra será processada.<br>
+	 * Quantidade de Parcelas que a compra serï¿½ processada.<br>
 	 * 
 	 * @param installments
 	 *            ex.: 5
@@ -328,7 +326,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Recupera a moeda utilizada para a transação.
+	 * Recupera a moeda utilizada para a transaï¿½ï¿½o.
 	 * 
 	 * @return currency
 	 */
@@ -337,8 +335,8 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Moeda utilizada para a transação.<br>
-	 * <i>Tamanho máximo: 3 caracteres</i>.<br>
+	 * Moeda utilizada para a transaï¿½ï¿½o.<br>
+	 * <i>Tamanho mï¿½ximo: 3 caracteres</i>.<br>
 	 * <br>
 	 * 
 	 * *Vide enum: {@link CurrencyEnum}
@@ -426,7 +424,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Recupera o endereço de IP da loja.
+	 * Recupera o endereï¿½o de IP da loja.
 	 * 
 	 * @return ipSeller
 	 */
@@ -435,9 +433,9 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Endereço de IP da loja.<br>
-	 * <i>Tamanho máximo: 40 caracteres</i>.<br>
-	 * <b>Campo obrigatório</b>
+	 * Endereï¿½o de IP da loja.<br>
+	 * <i>Tamanho mï¿½ximo: 40 caracteres</i>.<br>
+	 * <b>Campo obrigatï¿½rio</b>
 	 * 
 	 * @param ipSeller
 	 *            ex.: 169.254.57.175
@@ -447,7 +445,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Recupera a lista de transações dependentes.
+	 * Recupera a lista de transaï¿½ï¿½es dependentes.
 	 * 
 	 * @return List<{@link DependentTransaction}>
 	 */
@@ -456,7 +454,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * Lista de transações dependentes.<br>
+	 * Lista de transaï¿½ï¿½es dependentes.<br>
 	 * 
 	 * *Obs.: Preencher a lista com o objeto {@link DependentTransaction}
 	 * 
@@ -500,7 +498,7 @@ public class TransactionRequest {
 	}
 
 	/**
-	 * @return Obtém o token da carteira Bcash
+	 * @return Obtï¿½m o token da carteira Bcash
 	 */
 	public String getWallet() {
 		return wallet;
@@ -536,14 +534,6 @@ public class TransactionRequest {
 
 	public void setBankSlipDescription(String bankSlipDescription) {
 		this.bankSlipDescription = bankSlipDescription;
-	}
-
-	public String getDeviceId() {
-		return deviceId;
-	}
-
-	public void setDeviceId(String deviceId) {
-		this.deviceId = deviceId;
 	}
 
 }

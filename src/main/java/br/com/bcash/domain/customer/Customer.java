@@ -36,6 +36,8 @@ public class Customer {
 
 	private String ipAddress;
 
+	private String deviceFingerprint;
+
 	public String getMail() {
 		return mail;
 	}
@@ -162,6 +164,14 @@ public class Customer {
 
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
+	}
+
+	public String getDeviceFingerprint() {
+		return deviceFingerprint;
+	}
+
+	public void setDeviceFingerprint(String deviceFingerprint) {
+		this.deviceFingerprint = deviceFingerprint;
 	}
 
 }
