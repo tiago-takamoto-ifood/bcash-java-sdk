@@ -6,4 +6,18 @@
   <name>bcash-java-sdk</name>
   <description>Bcash SDK para integracao com as APIs REST.</description>
   <url>http://bcash.com.br/</url>
+  <organization>
+  	<name>Bcash Pagamentos Online</name>
+  	<url>http://bcash.com.br</url>
+  </organization>
+  <scm>
+  	<url>https://github.com/payu-br/bcash-java-sdk</url>
+  </scm>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.google.code.gson</groupId>
+  		<artifactId>gson</artifactId>
+  		<version>2.3.1</version>
+  	</dependency>
+  </dependencies>
 </project>
