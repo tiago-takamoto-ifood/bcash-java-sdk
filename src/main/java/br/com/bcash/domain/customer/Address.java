@@ -2,6 +2,8 @@ package br.com.bcash.domain.customer;
 
 public class Address {
 
+	public static final String WITHOUT_NUMBER = "S/N";
+
 	private String address;
 
 	private String number;
@@ -17,7 +19,7 @@ public class Address {
 	private String zipCode;
 
 	/**
-	 * Recupera o endereço do comprador.
+	 * Recupera o endereï¿½o do comprador.
 	 * 
 	 * @return address
 	 */
@@ -26,9 +28,9 @@ public class Address {
 	}
 
 	/**
-	 * Endereço do comprador.<br>
-	 * <i>Tamanho máximo: 100 caracteres</i>.<br>
-	 * <b>Campo obrigatório</b>
+	 * Endereï¿½o do comprador.<br>
+	 * <i>Tamanho mï¿½ximo: 100 caracteres</i>.<br>
+	 * <b>Campo obrigatï¿½rio</b>
 	 * 
 	 * @param address
 	 *            ex.: Av. Tiradentes
@@ -38,7 +40,7 @@ public class Address {
 	}
 
 	/**
-	 * Recupera o número do endereço.
+	 * Recupera o nï¿½mero do endereï¿½o.
 	 * 
 	 * @return number
 	 */
@@ -47,10 +49,9 @@ public class Address {
 	}
 
 	/**
-	 * Número do endereço.<br>
-	 * Caso o endereço informado não possua número informar S/N
-	 * <i>Tamanho máximo: 10 caracteres</i>.<br>
-	 * <b>Campo obrigatório</b>
+	 * Nï¿½mero do endereï¿½o.<br>
+	 * Caso o endereï¿½o informado nï¿½o possua nï¿½mero informar S/N <i>Tamanho mï¿½ximo: 10 caracteres</i>.<br>
+	 * <b>Campo obrigatï¿½rio</b>
 	 * 
 	 * @param number
 	 *            ex.: 1254
@@ -60,7 +61,7 @@ public class Address {
 	}
 
 	/**
-	 * Recupera o complemento do endereço do comprador.
+	 * Recupera o complemento do endereï¿½o do comprador.
 	 * 
 	 * @return complement
 	 */
@@ -69,8 +70,8 @@ public class Address {
 	}
 
 	/**
-	 * Complemento do endereço do comprador.<br>
-	 * <i>Tamanho máximo: 80 caracteres</i>.<br>
+	 * Complemento do endereï¿½o do comprador.<br>
+	 * <i>Tamanho mï¿½ximo: 80 caracteres</i>.<br>
 	 * 
 	 * @param complement
 	 *            ex.: Apartamento 10
@@ -90,8 +91,8 @@ public class Address {
 
 	/**
 	 * Bairro do comprador.<br>
-	 * <i>Tamanho máximo: 50 caracteres</i>.<br>
-	 * <b>Campo obrigatório</b>
+	 * <i>Tamanho mï¿½ximo: 50 caracteres</i>.<br>
+	 * <b>Campo obrigatï¿½rio</b>
 	 * 
 	 * @param neighborhood
 	 *            ex.: Centro
@@ -111,11 +112,11 @@ public class Address {
 
 	/**
 	 * Cidade do comprador.<br>
-	 * <i>Tamanho máximo: 255 caracteres</i>.<br>
-	 * <b>Campo obrigatório</b>
+	 * <i>Tamanho mï¿½ximo: 255 caracteres</i>.<br>
+	 * <b>Campo obrigatï¿½rio</b>
 	 * 
 	 * @param city
-	 *            ex.: São Paulo
+	 *            ex.: Sï¿½o Paulo
 	 */
 	public void setCity(final String city) {
 		this.city = city;
@@ -126,22 +127,26 @@ public class Address {
 	 * 
 	 * @return state
 	 */
-	public String getState() {
-		return state;
+	public StateEnum getState() {
+		try {
+			return StateEnum.fromAbbreviation(state);
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
 	}
 
 	/**
 	 * Estado do comprador.<br>
-	 * <i>Tamanho máximo: 2 caracteres</i>.<br>
-	 * <b>Campo obrigatório</b>.<br>
+	 * <i>Tamanho mï¿½ximo: 2 caracteres</i>.<br>
+	 * <b>Campo obrigatï¿½rio</b>.<br>
 	 * <br>
 	 * *Vide enum: {@link StateEnum}
 	 * 
 	 * @param state
 	 *            ex.: StateEnum.MINAS_GERAIS
 	 */
-	public void setState(final String state) {
-		this.state = state;
+	public void setState(final StateEnum state) {
+		this.state = state.getAbbreviation();
 	}
 
 	/**
@@ -155,8 +160,8 @@ public class Address {
 
 	/**
 	 * CEP do comprador.<br>
-	 * <i>Tamanho máximo: 9 caracteres</i>.<br>
-	 * <b>Campo obrigatório</b>
+	 * <i>Tamanho mï¿½ximo: 9 caracteres</i>.<br>
+	 * <b>Campo obrigatï¿½rio</b>
 	 * 
 	 * @param zipCode
 	 *            ex.: 17500000
@@ -164,5 +169,5 @@ public class Address {
 	public void setZipCode(final String zipCode) {
 		this.zipCode = zipCode;
 	}
-	
+
 }

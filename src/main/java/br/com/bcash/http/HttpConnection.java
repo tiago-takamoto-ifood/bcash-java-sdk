@@ -31,10 +31,10 @@ public class HttpConnection {
 			System.out.println(httpResponse.getStatusLine());
 			HttpEntity entity = httpResponse.getEntity();
 			if (entity != null) {
-				long len = entity.getContentLength();
-				if (len > 0 && len < 2048) {
-					response.setBody(EntityUtils.toString(entity));
-				}
+				// long len = entity.getContentLength();
+				// if (len > 0 && len < 2048) {
+				response.setBody(EntityUtils.toString(entity));
+				// }
 			}
 
 			EntityUtils.consume(entity);

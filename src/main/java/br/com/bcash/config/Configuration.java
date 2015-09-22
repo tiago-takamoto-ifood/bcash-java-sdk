@@ -4,7 +4,7 @@ public class Configuration {
 
 	public static final String apiHost = "https://api.bcash.com.br/service/";
 
-	public static final String sandboxApiHost = "https://sandbox-api.bcash.com.br/service/";
+	public static final String sandboxApiHost = "http://devapi.bcash.com.br:8080/service/";
 
 	public static final String host = "https://www.bcash.com.br/";
 

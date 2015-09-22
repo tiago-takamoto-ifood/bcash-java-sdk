@@ -42,9 +42,9 @@ public class TransactionRequest {
 
 	private String currency;
 
-	private Boolean acceptedContract;
+	private String acceptedContract;
 
-	private Boolean viewedContract;
+	private String viewedContract;
 
 	private Integer campaignId;
 
@@ -242,8 +242,8 @@ public class TransactionRequest {
 	 * 
 	 * @param paymentMethod
 	 */
-	public void setPaymentMethod(final PaymentMethod paymentMethod) {
-		this.paymentMethod = paymentMethod;
+	public void setPaymentMethod(final PaymentMethodEnum paymentMethod) {
+		this.paymentMethod = new PaymentMethod(paymentMethod.getCode());
 	}
 
 	/**
@@ -354,7 +354,7 @@ public class TransactionRequest {
 	 * @return acceptedContract
 	 */
 	public Boolean getAcceptedContract() {
-		return acceptedContract;
+		return acceptedContract == null || acceptedContract.isEmpty() || !acceptedContract.equals("S") ? false : true;
 	}
 
 	/**
@@ -364,7 +364,7 @@ public class TransactionRequest {
 	 *            ex.: Boolean.TRUE
 	 */
 	public void setAcceptedContract(final Boolean acceptedContract) {
-		this.acceptedContract = acceptedContract;
+		this.acceptedContract = acceptedContract ? "S" : "N";
 	}
 
 	/**
@@ -373,7 +373,7 @@ public class TransactionRequest {
 	 * @return viewContract
 	 */
 	public Boolean getViewedContract() {
-		return viewedContract;
+		return viewedContract == null || viewedContract.isEmpty() || !viewedContract.equals("S") ? false : true;
 	}
 
 	/**
@@ -383,7 +383,7 @@ public class TransactionRequest {
 	 *            ex.: Boolean.TRUE
 	 */
 	public void setViewedContract(final Boolean viewedContract) {
-		this.viewedContract = viewedContract;
+		this.viewedContract = viewedContract ? "S" : "N";
 	}
 
 	/**

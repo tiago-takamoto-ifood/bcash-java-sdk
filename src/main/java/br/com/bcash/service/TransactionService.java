@@ -12,6 +12,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicNameValuePair;
 
 import br.com.bcash.config.Configuration;
+import br.com.bcash.domain.error.ErrorList;
 import br.com.bcash.domain.transaction.TransactionRequest;
 import br.com.bcash.domain.transaction.TransactionResponse;
 import br.com.bcash.http.HttpConnection;
@@ -44,7 +45,7 @@ public class TransactionService {
 		this.oAuthCredentials = oAuthCredentials;
 	}
 
-	public TransactionResponse create(TransactionRequest request) throws IOException {
+	public TransactionResponse create(TransactionRequest request) throws IOException, ServiceException {
 		Map<String, String> authentication = OAuth.generateHeader(oAuthCredentials);
 		HttpRequest httpRequest = new HttpRequest();
 		httpRequest.setUrl(Configuration.sandboxApiHost + SERVICE_URL);
@@ -63,7 +64,7 @@ public class TransactionService {
 		HttpResponse httpResponse = httpConnection.post(httpRequest);
 
 		if (httpResponse.getStatusCode() != HttpStatus.SC_OK) {
-			throw new IllegalArgumentException(httpResponse.getBody());
+			throw new ServiceException(JsonUtil.fromJson(httpResponse.getBody(), ErrorList.class));
 		}
 
 		return JsonUtil.fromJson(httpResponse.getBody(), TransactionResponse.class);

@@ -12,7 +12,7 @@ import org.apache.commons.lang.math.RandomUtils;
 
 public class OAuth {
 
-	private static final String OAUTH = "Oauth";
+	private static final String OAUTH = "OAuth";
 
 	private static final String REALM_PARAM = "realm";
 
