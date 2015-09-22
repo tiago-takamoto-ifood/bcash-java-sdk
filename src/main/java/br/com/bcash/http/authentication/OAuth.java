@@ -34,16 +34,16 @@ public class OAuth {
 
 	private static final String VERSION = "1.0";
 
-	public Map<String, String> generateHeader(OAuthCredentials credentials) {
+	public static Map<String, String> generateHeader(OAuthCredentials credentials) {
 		String headerValue = generateHeaderValue(credentials);
 
 		Map<String, String> header = new HashMap<String, String>();
-		header.put(OAUTH, headerValue);
+		header.put("Authorization", headerValue);
 
 		return header;
 	}
 
-	private String generateHeaderValue(OAuthCredentials credentials) {
+	private static String generateHeaderValue(OAuthCredentials credentials) {
 		String nonce = generateNonce();
 		String timestamp = generateTimestamp();
 
@@ -54,7 +54,7 @@ public class OAuth {
 		return builder.append(OAUTH).append(" ").append(allParameters).toString();
 	}
 
-	private LinkedHashMap<String, String> generateParameters(String consumerKey, String nonce, String timestamp) {
+	private static LinkedHashMap<String, String> generateParameters(String consumerKey, String nonce, String timestamp) {
 		LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
 		parameters.put(REALM_PARAM, REALM);
 		parameters.put(CONSUMER_KEY_PARAM, consumerKey);
