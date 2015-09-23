@@ -81,4 +81,14 @@ if (response != null) {
 }
 ```
 
+### Comprando com cartão de crédito
+```java
+CreditCardRequest creditCardRequest = new CreditCardRequest();
+creditCardRequest.setHolder("JOAO DA SILVA");
+creditCardRequest.setNumber("4111111111111111");
+creditCardRequest.setMaturityMonth(12);
+creditCardRequest.setMaturityYear(2018);
+creditCardRequest.setSecurityCode("123");
+transaction.setCreditCard(creditCardRequest);
+transaction.setPaymentMethod(PaymentMethodEnum.VISA); // ou PaymentMethodEnum.fromCode(1);
 ```
