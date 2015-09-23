@@ -3,12 +3,14 @@ package br.com.bcash.http;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.net.URLCodec;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -25,31 +27,44 @@ public class HttpConnection {
 	}
 
 	public HttpResponse get(HttpRequest request) throws ClientProtocolException, IOException {
-		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpGet httpGet = new HttpGet(request.getUrl());
-		fillHeaders(httpGet, request.getHeaders());
+		return send(httpGet, request);
+	}
 
-		CloseableHttpResponse httpResponse = httpclient.execute(httpGet);
+	public HttpResponse post(HttpRequest request) throws ClientProtocolException, IOException {
+		HttpPost httpPost = new HttpPost(request.getUrl());
+		httpPost.setEntity(request.getBody());
+		return send(httpPost, request);
+	}
+
+	public HttpResponse send(HttpUriRequest httpMethod, HttpRequest request) throws ClientProtocolException, IOException {
+		fillHeaders(httpMethod, request.getHeaders());
+		CloseableHttpResponse httpResponse = getHttpClient().execute(httpMethod);
 		return handleResponse(httpResponse);
+	}
+
+	private CloseableHttpClient getHttpClient() {
+		return HttpClients.createDefault();
 	}
 
 	private HttpResponse handleResponse(CloseableHttpResponse httpResponse) throws IOException {
 		HttpResponse response = new HttpResponse();
 		response.setStatusCode(httpResponse.getStatusLine().getStatusCode());
+		String body = "";
 		try {
-			System.out.println(httpResponse.getStatusLine());
 			HttpEntity entity = httpResponse.getEntity();
 			if (entity != null) {
-				// long len = entity.getContentLength();
-				// if (len > 0 && len < 2048) {
-				response.setBody(EntityUtils.toString(entity));
-				// }
+				body = EntityUtils.toString(entity);
+				response.setBody(new URLCodec().decode(body));
 			}
 
 			EntityUtils.consume(entity);
+		} catch (DecoderException e) {
+			throw new RuntimeException("Não foi possível decodar a resposta da API: " + body);
 		} finally {
 			httpResponse.close();
 		}
+
 		return response;
 	}
 
@@ -65,13 +80,4 @@ public class HttpConnection {
 		}
 	}
 
-	public HttpResponse post(HttpRequest request) throws ClientProtocolException, IOException {
-		CloseableHttpClient httpclient = HttpClients.createDefault();
-		HttpPost httpPost = new HttpPost(request.getUrl());
-		fillHeaders(httpPost, request.getHeaders());
-		httpPost.setEntity(request.getBody());
-
-		CloseableHttpResponse httpResponse = httpclient.execute(httpPost);
-		return handleResponse(httpResponse);
-	}
 }
