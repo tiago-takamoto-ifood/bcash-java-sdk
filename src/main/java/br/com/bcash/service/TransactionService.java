@@ -1,6 +1,7 @@
 package br.com.bcash.service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,12 +52,7 @@ public class TransactionService {
 		httpRequest.setUrl(Configuration.getApiURL() + SERVICE_URL);
 		httpRequest.setHeaders(authentication);
 
-		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-		nvps.add(new BasicNameValuePair("encode", "UTF_8"));
-		nvps.add(new BasicNameValuePair("version", "1.0"));
-		nvps.add(new BasicNameValuePair("data", JsonUtil.toJson(request)));
-
-		UrlEncodedFormEntity body = new UrlEncodedFormEntity(nvps);
+		UrlEncodedFormEntity body = resolveCreateTransactionBody(request);
 		body.setContentType(ContentType.APPLICATION_FORM_URLENCODED.getMimeType());
 		httpRequest.setBody(body);
 
@@ -68,6 +64,15 @@ public class TransactionService {
 		}
 
 		return JsonUtil.fromJson(httpResponse.getBody(), TransactionResponse.class);
+	}
+
+	private UrlEncodedFormEntity resolveCreateTransactionBody(TransactionRequest request) throws UnsupportedEncodingException {
+		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+		nvps.add(new BasicNameValuePair("encode", "UTF_8"));
+		nvps.add(new BasicNameValuePair("version", "1.0"));
+		nvps.add(new BasicNameValuePair("data", JsonUtil.toJson(request)));
+
+		return new UrlEncodedFormEntity(nvps);
 	}
 
 }
