@@ -48,7 +48,7 @@ public class TransactionService {
 	public TransactionResponse create(TransactionRequest request) throws IOException, ServiceException {
 		Map<String, String> authentication = OAuth.generateHeader(oAuthCredentials);
 		HttpRequest httpRequest = new HttpRequest();
-		httpRequest.setUrl(Configuration.sandboxApiHost + SERVICE_URL);
+		httpRequest.setUrl(Configuration.getApiURL() + SERVICE_URL);
 		httpRequest.setHeaders(authentication);
 
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
