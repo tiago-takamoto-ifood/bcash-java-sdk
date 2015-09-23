@@ -9,6 +9,10 @@ bcash.credentials.consumerKey = abcdfabcdfabcdf99ab99ab99av99ab99ab99ab1
 bcash.credentials.token = AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 ```
 
+Suas credenciais podem ser obtidas na área logada do Bcash. A consumerKey pode ser encontrada no menu Ferramentas > Gerenciamento de 
+APIs e o token de acesso (chave acesso) no menu Ferramentas > Códigos de integração. Caso a consumerKey não esteja disponível na sua
+conta entre em contato com comercial@bcash.com.br.
+
 E utilizar os services com o construtor default: 
 ```java
 TransactionService transactionService = new TransactionService();
@@ -93,7 +97,9 @@ if (response != null) {
 
 ### Comprando com cartão de crédito
 
-Para efetuar compras utilizando cartão de crédito, a bandeira deve ser informada como meio de pagamento (TransactionRequest#setPaymentMethod(PaymentMethodEnum)) e os dados do cartão de crédito devem ser informados no TransactionRequest#setCreditCard(CreditCardRequest), conforme exemplo abaixo:
+Para efetuar compras utilizando cartão de crédito, a bandeira deve ser informada como meio de 
+pagamento (TransactionRequest#setPaymentMethod(PaymentMethodEnum)) e os dados do cartão de crédito 
+devem ser informados no TransactionRequest#setCreditCard(CreditCardRequest), conforme exemplo abaixo:
 
 ```java
 /* ... */
@@ -106,5 +112,24 @@ creditCardRequest.setMaturityMonth(12);
 creditCardRequest.setMaturityYear(2018);
 creditCardRequest.setSecurityCode("123");
 transaction.setCreditCard(creditCardRequest);
+/* ... */
+```
+
+### Adicionando comissionamento (Transações dependentes)
+
+Você pode especificar até seis contas para receber comissionamento caso a transação seja aprovada.
+Em cada comissionamento deve ser especificado o email da conta que irá receber a comissão e o
+valor a ser enviado. Para cada comissionamento uma nova transação de envio de dinheiro será gerada.
+A loja pode configurar na área logada do Bcash o valor máximo de comissionamento permitido. Por
+padrão a soma das comissões não pode ultrapassar 5% do valor total da transação. 
+
+```java
+/* ... */
+
+DependentTransaction dependentTransaction0 = new DependentTransaction();
+dependentTransaction0.setEmail("email@comissionado.com");
+dependentTransaction0.setValue(new BigDecimal("1.59")); // Utilizar sempre duas casas decimais
+transaction.setDependentTransactions(Arrays.asList(dependentTransaction0));
+		
 /* ... */
 ```
