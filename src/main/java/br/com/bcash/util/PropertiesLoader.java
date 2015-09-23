@@ -10,15 +10,22 @@ public class PropertiesLoader {
 
 	private static final String PROPERTIES_FILE_DEFAULT = "bcash.properties";
 
-	private static final Properties PROPERTIES = loadResource();
+	private static final String PROPERTIES_CONFIG_FILE = "bcash-sdk.properties";
 
-	public static String load(String key) {
+	private static final Properties PROPERTIES = loadResource(resolveResourceName());
+
+	private static final Properties CONFIGS = loadResource(PROPERTIES_CONFIG_FILE);
+
+	public static String get(String key) {
 		return PROPERTIES.getProperty(key);
 	}
 
-	private static Properties loadResource() {
+	public static String getConfig(String key) {
+		return CONFIGS.getProperty(key);
+	}
+
+	private static Properties loadResource(String resorceFileName) {
 		final Properties properties = new Properties();
-		final String resorceFileName = resolveResourceName();
 
 		try {
 			final InputStream stream = PropertiesLoader.class.getClassLoader().getResourceAsStream(resorceFileName);

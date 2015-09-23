@@ -17,7 +17,7 @@ public class OAuthCredentials {
 	}
 
 	public static OAuthCredentials loadFromProperties() {
-		String consumerKey = PropertiesLoader.load(CONSUMER_KEY_PROPERTY);
+		String consumerKey = PropertiesLoader.get(CONSUMER_KEY_PROPERTY);
 		if (consumerKey == null || consumerKey.isEmpty()) {
 			throw new RuntimeException("Consumer key não foi definida no properties.");
 		}

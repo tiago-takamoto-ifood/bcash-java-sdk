@@ -13,7 +13,16 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import br.com.bcash.util.PropertiesLoader;
+
 public class HttpConnection {
+
+	private static final String USER_AGENT;
+
+	static {
+		String userAgent = PropertiesLoader.getConfig("userAgent");
+		USER_AGENT = userAgent != null && !userAgent.isEmpty() ? userAgent : "bcash-java-sdk/unknown-version";
+	}
 
 	public HttpResponse get(HttpRequest request) throws ClientProtocolException, IOException {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -44,7 +53,9 @@ public class HttpConnection {
 		return response;
 	}
 
-	private void fillHeaders(HttpRequestBase httpRequest, Map<String, String> headers) {
+	private void fillHeaders(HttpUriRequest httpRequest, Map<String, String> headers) {
+		httpRequest.setHeader("User-Agent", USER_AGENT);
+
 		if (headers == null) {
 			return;
 		}
