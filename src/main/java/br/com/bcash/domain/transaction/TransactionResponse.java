@@ -59,8 +59,8 @@ public class TransactionResponse {
 	 * 
 	 * @return status
 	 */
-	public Integer getStatus() {
-		return status;
+	public TransactionStatusEnum getStatus() {
+		return TransactionStatusEnum.from(status);
 	}
 
 	/**
@@ -68,8 +68,8 @@ public class TransactionResponse {
 	 * 
 	 * @param status
 	 */
-	public void setStatus(final Integer status) {
-		this.status = status;
+	public void setStatus(final TransactionStatusEnum status) {
+		this.status = status == null ? null : status.getCode();
 	}
 
 	/**

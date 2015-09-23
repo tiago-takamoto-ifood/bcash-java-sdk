@@ -2,19 +2,15 @@ package br.com.bcash.domain.transaction;
 
 import java.math.BigDecimal;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Product {
 
 	private String code;
 
 	private String description;
 
-	@SerializedName("amount")
-	private Integer quantity;
+	private Integer amount;
 
-	@SerializedName("value")
-	private BigDecimal price;
+	private BigDecimal value;
 
 	private String extraDescription;
 
@@ -73,8 +69,8 @@ public class Product {
 	 * 
 	 * @return amount
 	 */
-	public Integer getQuantity() {
-		return quantity;
+	public Integer getAmount() {
+		return amount;
 	}
 
 	/**
@@ -84,28 +80,28 @@ public class Product {
 	 * @param amount
 	 *            ex.: 2
 	 */
-	public void setQuantity(final Integer amount) {
-		this.quantity = amount;
+	public void setAmount(final Integer amount) {
+		this.amount = amount;
 	}
 
 	/**
 	 * Recupera o valor unitário do produto.
 	 * 
-	 * @return price
+	 * @return value
 	 */
-	public BigDecimal getPrice() {
-		return price;
+	public BigDecimal getValue() {
+		return value;
 	}
 
 	/**
 	 * Valor unitário do produto.<br>
 	 * <b>Campo obrigatório</b>
 	 * 
-	 * @param price
+	 * @param value
 	 *            ex.: new BigDecimal("10.95")
 	 */
-	public void setPrice(final BigDecimal price) {
-		this.price = price;
+	public void setPrice(final BigDecimal value) {
+		this.value = value;
 	}
 
 	/**

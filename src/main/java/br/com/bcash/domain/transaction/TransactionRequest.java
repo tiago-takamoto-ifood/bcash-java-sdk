@@ -21,7 +21,7 @@ public class TransactionRequest {
 	private String free;
 
 	@SerializedName("freight")
-	private BigDecimal shippingAmount;
+	private BigDecimal shippingCost;
 
 	@SerializedName("freightType")
 	private String shippingType;
@@ -153,8 +153,8 @@ public class TransactionRequest {
 	 * 
 	 * @return shippingAmount
 	 */
-	public BigDecimal getShippingAmount() {
-		return shippingAmount;
+	public BigDecimal getShippingCost() {
+		return shippingCost;
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class TransactionRequest {
 	 *            ex.: new BigDecimal("10.95")
 	 */
 	public void setShippingAmount(final BigDecimal shippingAmount) {
-		this.shippingAmount = shippingAmount;
+		this.shippingCost = shippingAmount;
 	}
 
 	/**

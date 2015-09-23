@@ -32,13 +32,16 @@ Product product0 = new Product();
 product0.setCode("001");
 product0.setDescription("Teste de produto");
 product0.setPrice(new BigDecimal("10.50")); // valor unitário
-product0.setQuantity(2);
+product0.setAmount(2);
 transaction.setProducts(Arrays.asList(product0));
 
 transaction.setPaymentMethod(PaymentMethodEnum.BANK_SLIP);
 
 Customer buyer = new Customer();
-buyer.setMail("comprador@comprador.com");
+buyer.setMail("email@comprador.com");
+buyer.setName("João da Silva");
+buyer.setCpf("31311053050");
+buyer.setCellPhone("11999995555"); // Obrigatório no mínimo 1 telefone
 transaction.setBuyer(buyer);
 
 Address address = new Address();
@@ -52,13 +55,30 @@ buyer.setAddress(address);
 transaction.setAcceptedContract(true);
 transaction.setViewedContract(true);
 
+TransactionResponse response = null;
 try {
 	TransactionService service = new TransactionService();
-	service.create(transaction);
+	response = service.create(transaction);
 } catch (ServiceException e) {
 	System.out.println("O serviço retornou um erro:");
 	for (ResponseError error : e.getErrors()) {
 		System.out.println(error.getCode() + " - " + error.getDescription());
 	}
 }
+
+if (response != null) {
+	System.out.println(response.getTransactionId());
+	System.out.println(response.getOrderId());
+	System.out.println(response.getPaymentLink()); // link para boleto ou tef
+	System.out.println(response.getStatus()); // status da transação no bcash
+	System.out.println(response.getDescriptionStatus());
+
+	/* Caso haja a recusa nos pagamentos de cartão de crédito o status da transação será cancelado */
+	if (TransactionStatusEnum.CANCELLED.equals(response.getStatus())) {
+		System.out.println(response.getCancellationCode());
+		System.out.println(response.getMessage()); // motivo do cancelamento
+	}
+}
+```
+
 ```
