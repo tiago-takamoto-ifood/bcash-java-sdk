@@ -11,14 +11,14 @@ bcash.credentials.token = AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 E utilizar os services com o construtor default: 
 ```java
-TransactionService service = new TransactionService();
+TransactionService transactionService = new TransactionService();
 ```
 
 2. Ou pode informar suas credenciais nas classes Service, por exemplo:
 ```java
 String consumerKey = "abcdfabcdfabcdf99ab99ab99av99ab99ab99ab1";
 OAuthCredentials credential = new OAuthCredentials(consumerKey);
-TransactionRequest transaction = new TransactionRequest(credential);
+TransactionService transactionService = new TransactionService(credential);
 ```
 
 ### Criando uma transação de boleto
@@ -83,6 +83,7 @@ if (response != null) {
 
 ### Comprando com cartão de crédito
 ```java
+/* ... */
 CreditCardRequest creditCardRequest = new CreditCardRequest();
 creditCardRequest.setHolder("JOAO DA SILVA");
 creditCardRequest.setNumber("4111111111111111");
@@ -91,4 +92,5 @@ creditCardRequest.setMaturityYear(2018);
 creditCardRequest.setSecurityCode("123");
 transaction.setCreditCard(creditCardRequest);
 transaction.setPaymentMethod(PaymentMethodEnum.VISA); // ou PaymentMethodEnum.fromCode(1);
+/* ... */
 ```
