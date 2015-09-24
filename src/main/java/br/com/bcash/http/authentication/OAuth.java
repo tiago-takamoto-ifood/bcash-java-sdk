@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.http.HttpHeaders;
 
 public class OAuth {
 
@@ -38,7 +39,7 @@ public class OAuth {
 		String headerValue = generateHeaderValue(credentials);
 
 		Map<String, String> header = new HashMap<String, String>();
-		header.put("Authorization", headerValue);
+		header.put(HttpHeaders.AUTHORIZATION, headerValue);
 
 		return header;
 	}
