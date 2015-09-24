@@ -133,3 +133,29 @@ transaction.setDependentTransactions(Arrays.asList(dependentTransaction0));
 		
 /* ... */
 ```
+
+### Cancelando uma transação
+É possível cancelar uma transação informando o identificador da transação Bcash, conforme exemplo abaixo:
+```java
+// utilizando autenticação do properties ou usar BasicCredentials
+TransactionService transactionService = new TransactionService();
+
+
+TransactionCancelResponse response = null;
+try {
+	String transactionId = "99999999";
+	response = transactionService.cancel(transactionId);
+} catch (ServiceException e) {
+	System.out.println("O serviço retornou um erro:");
+	for (ResponseError error : e.getErrors()) {
+		System.out.println(error.getCode() + " - " + error.getDescription());
+	}
+} catch (IOException e) {
+	System.out.println("Erro de comunicação:" + e);
+}
+
+if (response != null) {
+	System.out.println(response.getTransactionId());
+	System.out.println(response.getTransactionStatus());
+}
+```
