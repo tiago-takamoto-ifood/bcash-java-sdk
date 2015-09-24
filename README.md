@@ -77,6 +77,8 @@ try {
 	for (ResponseError error : e.getErrors()) {
 		System.out.println(error.getCode() + " - " + error.getDescription());
 	}
+} catch (IOException e) {
+	System.out.println("Erro de comunicação:" + e);
 }
 
 /* Tratando caso de sucesso */
