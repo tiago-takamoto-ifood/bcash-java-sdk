@@ -25,6 +25,14 @@ OAuthCredentials credential = new OAuthCredentials(consumerKey);
 TransactionService transactionService = new TransactionService(credential);
 ```
 
+### Utilizando o Sandbox
+
+Para utilizar o ambiente de testes (sandbox) adicione a seguinte propriedade ao seu bcash.properties: 
+
+```java
+bcash.env = sandbox # use prod para o ambiente real 
+```
+
 ### Criando uma transação de boleto
 
 ```java
