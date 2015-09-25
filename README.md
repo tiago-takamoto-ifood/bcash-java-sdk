@@ -169,3 +169,25 @@ if (response != null) {
 	System.out.println(response.getTransactionStatus());
 }
 ```
+
+### Consultando os dados de uma transação
+
+```java
+TransactionService service = new TransactionService(credentials);
+		
+TransactionSearchResponse response = null;
+try {
+	response = service.searchById("710");
+} catch (IOException e) {
+	System.out.println("Erro de comunicação: " + e.getMessage());
+} catch (ServiceException e) {
+	System.out.println("O serviço retornou um erro: ");
+	for (ResponseError error : e.getErrors()) {
+		System.out.println(error.getCode() + " - " + error.getDescription());
+	}
+}
+		
+if (response != null) {
+	System.out.println(response.getTransactionId());
+}
+```
