@@ -3,6 +3,7 @@ package br.com.bcash.service;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +17,20 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import br.com.bcash.config.Configuration;
 import br.com.bcash.domain.error.ErrorList;
+import br.com.bcash.domain.error.ResponseError;
 import br.com.bcash.domain.transaction.TransactionRequest;
 import br.com.bcash.domain.transaction.TransactionResponse;
 import br.com.bcash.domain.transaction.cancel.TransactionCancelResponse;
+import br.com.bcash.domain.transaction.search.SearchError;
+import br.com.bcash.domain.transaction.search.TransactionSearchErrorAdapter;
 import br.com.bcash.domain.transaction.search.TransactionSearchResponse;
+import br.com.bcash.domain.transaction.search.TransactionSearchResponseAdapter;
+import br.com.bcash.domain.transaction.search.TransactionSearchResponseContainer;
 import br.com.bcash.http.HttpConnection;
 import br.com.bcash.http.HttpRequest;
 import br.com.bcash.http.HttpResponse;
@@ -221,10 +230,12 @@ public class TransactionService {
 		HttpResponse httpResponse = HttpConnection.post(httpRequest);
 
 		if (!httpResponse.isSuccess()) {
-			throw new ServiceException(JsonUtil.fromJson(httpResponse.getBody(), ErrorList.class));
+			SearchError searchError = JsonUtil.fromJson(httpResponse.getBody(), SearchError.class);
+			throw new ServiceException(TransactionSearchErrorAdapter.adapt(searchError));
 		}
-
-		return JsonUtil.fromJson(httpResponse.getBody(), TransactionSearchResponse.class);
+		
+		TransactionSearchResponseContainer container = JsonUtil.fromJson(httpResponse.getBody(), TransactionSearchResponseContainer.class);
+		return TransactionSearchResponseAdapter.adapt(container);
 	}
 
 	private HttpRequest gerenateSearchRequest(String key, String value) {
