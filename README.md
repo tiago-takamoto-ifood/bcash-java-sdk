@@ -209,3 +209,70 @@ if (response != null) {
 	System.out.println(response.getStatus());
 }
 ```
+
+### Atualizando o status do pedido
+
+O Bcash realizará as notificações de alteração de statis na URL informada durante a criação da transação:
+```java
+TransactionRequest transaction = new TransactionRequest();
+/* ... */
+transaction.setUrlNotification("https://www.minhaloja.com.br/notification");
+```
+
+O método `NotificationService#verify(HttpServletRequest, HttpServletResponse, BigDecimal)` irá confrontar os dados 
+recebidos por POST com as informações existentes no Bcash. Caso as informações estejam corretas este método retorna
+`true` e o status do seu pedido deverá ser atualizado conforme o enviado no POST (`NotificationService.getStatus(HttpServletRequest)`). 
+Caso contrário o status do seu pedido não deve ser alterado.
+
+É importante notificar situações de erro ao Bcash caso algo impeça a atualização do status no seu sistema. Isto fará com que
+o Bcash realize uma nova tentativa de notificação posteriormente. Isso deve ser feito retornando um cabeçalho HTTP diferente de 200.
+O Bcash tentará realizar até 5 tentativas de notificação para aquele status.
+
+Abaixo um exemplo de como implementar um servlet para receber as notificações de alteração de status utilizando a SDK:
+```java
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import br.com.bcash.domain.transaction.TransactionStatusEnum;
+
+public class Notification extends HttpServlet {
+
+	private static final long serialVersionUID = -5338769121304568942L;
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		NotificationService notificationService = new NotificationService();
+		String transactionId = notificationService.getTransactionId(req);
+		// Ou String orderId = notificationService.getOrderId(req);
+
+		/* consultar valor total do pedido no seu sistema */
+		/* valor dos produtos + frete + acréscimo - disconto */
+		BigDecimal transactionValue = ...;
+
+		try {
+			if (notificationService.verify(req, resp, transactionValue)) {
+				// dados válidos
+				TransactionStatusEnum status = notificationService.getStatus(req);
+				// alterar o status do seu pedido
+				// ...
+				// Notificar sucesso ao bcash
+				notificationService.sendSuccess(resp);
+			} else {
+				// dados não procedem com informações existentes no Bcash, não alterar o status
+			}
+		} catch (ServiceException e) {
+			// salvar em log os erros retornados em e.getErros();
+			resp.sendError(HttpServletResponse.SC_BAD_GATEWAY, "Ocorreu um erro ao processar a requisição.");
+		} catch (Exception e) {
+			// salvar em log o erro de comunicação
+			resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Ocorreu um erro inesperado.");
+		}
+	}
+}
+
+```
