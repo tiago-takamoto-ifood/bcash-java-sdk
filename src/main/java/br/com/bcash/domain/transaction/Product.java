@@ -100,7 +100,7 @@ public class Product {
 	 * @param value
 	 *            ex.: new BigDecimal("10.95")
 	 */
-	public void setPrice(final BigDecimal value) {
+	public void setValue(final BigDecimal value) {
 		this.value = value;
 	}
 
