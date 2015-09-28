@@ -27,13 +27,13 @@ public class JsonUtil {
 
 	private static Gson createParser() {
 		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(Date.class, new BrDateSerializer());
+		gsonBuilder.registerTypeAdapter(Date.class, new BrazilianDateSerializer());
 		
 		return gsonBuilder.create();
 	}
 }
 
-class BrDateSerializer implements JsonDeserializer<Date> {
+class BrazilianDateSerializer implements JsonDeserializer<Date> {
 	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
 	public Date deserialize(JsonElement json, Type typeOfT,
