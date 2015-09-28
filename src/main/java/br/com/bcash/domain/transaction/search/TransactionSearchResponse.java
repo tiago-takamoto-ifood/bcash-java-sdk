@@ -6,12 +6,13 @@ import java.util.List;
 
 import br.com.bcash.domain.customer.Customer;
 import br.com.bcash.domain.transaction.PaymentMethodEnum;
+import br.com.bcash.domain.transaction.Product;
 import br.com.bcash.domain.transaction.TransactionStatusEnum;
 
 import com.google.gson.annotations.SerializedName;
 
 public class TransactionSearchResponse {
-	
+
 	private String transactionId;
 
 	private String orderId;
@@ -43,14 +44,14 @@ public class TransactionSearchResponse {
 	private Customer buyer;
 
 	@SerializedName("pedidos")
-	private List<br.com.bcash.domain.transaction.Product> products;
+	private List<Product> products;
 
 	@SerializedName("frete")
 	private String shippingCost;
 
 	@SerializedName("tipo_frete")
 	private String shippingType;
-	
+
 	@SerializedName("free")
 	private String free;
 
@@ -174,11 +175,11 @@ public class TransactionSearchResponse {
 		this.lastStatusUpdate = lastStatusUpdate;
 	}
 
-	public List<br.com.bcash.domain.transaction.Product> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(List<br.com.bcash.domain.transaction.Product> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 
@@ -205,5 +206,5 @@ public class TransactionSearchResponse {
 	public void setFree(String free) {
 		this.free = free;
 	}
-	
+
 }

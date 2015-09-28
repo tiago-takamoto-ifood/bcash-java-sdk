@@ -45,7 +45,7 @@ transaction.setSellerMail("lojamodelo@bcash.com.br");
 Product product0 = new Product();
 product0.setCode("001");
 product0.setDescription("Teste de produto");
-product0.setPrice(new BigDecimal("10.50")); // valor unitário
+product0.setValue(new BigDecimal("10.50")); // valor unitário
 product0.setAmount(2);
 transaction.setProducts(Arrays.asList(product0));
 
@@ -173,11 +173,12 @@ if (response != null) {
 ### Consultando os dados de uma transação
 
 ```java
-TransactionService service = new TransactionService(credentials);
-		
+TransactionService service = new TransactionService();
+
 TransactionSearchResponse response = null;
 try {
-	response = service.searchById("710");
+	String transactionId = "710";  // id da transação Bcash
+	response = service.searchById(transactionId);
 } catch (IOException e) {
 	System.out.println("Erro de comunicação: " + e.getMessage());
 } catch (ServiceException e) {
@@ -186,8 +187,25 @@ try {
 		System.out.println(error.getCode() + " - " + error.getDescription());
 	}
 }
-		
+
 if (response != null) {
 	System.out.println(response.getTransactionId());
+	System.out.println(response.getOrderId());
+	System.out.println(response.getSellerEmail());
+
+	System.out.println(response.getShippingCost());
+	System.out.println(response.getShippingType());
+
+	// valor da soma dos produtos + frete + acrescimo - desconto
+	System.out.println(response.getPaymentAmount());
+	// valor da soma dos produtos + frete + acrescimo - desconto + taxa de parcelamento
+	System.out.println(response.getPaymentAmountWithRate());
+	// Valor da transacao - retencao (e menos taxa de parcelamento caso a loja assuma)
+	System.out.println(response.getFavoredPaymentAmount());
+
+	System.out.println(response.getBuyer().getName());
+
+	// status da transacao
+	System.out.println(response.getStatus());
 }
 ```
