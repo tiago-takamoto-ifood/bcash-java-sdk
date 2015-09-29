@@ -178,7 +178,7 @@ TransactionService service = new TransactionService();
 TransactionSearchResponse response = null;
 try {
 	String transactionId = "710";  // id da transação Bcash
-	response = service.searchById(transactionId);
+	response = service.searchById(transactionId); // Ou service.searchByOrderId(orderId); 
 } catch (IOException e) {
 	System.out.println("Erro de comunicação: " + e.getMessage());
 } catch (ServiceException e) {
