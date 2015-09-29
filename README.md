@@ -219,14 +219,14 @@ TransactionRequest transaction = new TransactionRequest();
 transaction.setUrlNotification("https://www.minhaloja.com.br/notification");
 ```
 
-O método `NotificationService#verify(HttpServletRequest, HttpServletResponse, BigDecimal)` irá confrontar os dados 
+O método `NotificationService#isValid(HttpServletRequest, HttpServletResponse, BigDecimal)` irá confrontar os dados 
 recebidos por POST com as informações existentes no Bcash. Caso as informações estejam corretas este método retorna
 `true` e o status do seu pedido deverá ser atualizado conforme o enviado no POST (`NotificationService.getStatus(HttpServletRequest)`). 
 Caso contrário o status do seu pedido não deve ser alterado.
 
 É importante notificar situações de erro ao Bcash caso algo impeça a atualização do status no seu sistema. Isto fará com que
 o Bcash realize uma nova tentativa de notificação posteriormente. Isso deve ser feito retornando um cabeçalho HTTP diferente de 200.
-O Bcash tentará realizar até 5 tentativas de notificação para aquele status.
+O Bcash realizará até 5 tentativas de notificação para aquele status.
 
 Abaixo um exemplo de como implementar um servlet para receber as notificações de alteração de status utilizando a SDK:
 ```java
@@ -251,11 +251,11 @@ public class Notification extends HttpServlet {
 		// Ou String orderId = notificationService.getOrderId(req);
 
 		/* consultar valor total do pedido no seu sistema */
-		/* valor dos produtos + frete + acréscimo - disconto */
+		/* valor dos produtos + frete + acréscimo - desconto */
 		BigDecimal transactionValue = ...;
 
 		try {
-			if (notificationService.verify(req, resp, transactionValue)) {
+			if (notificationService.isValid(req, resp, transactionValue)) {
 				// dados válidos
 				TransactionStatusEnum status = notificationService.getStatus(req);
 				// alterar o status do seu pedido

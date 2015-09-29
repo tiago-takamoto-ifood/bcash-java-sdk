@@ -54,7 +54,7 @@ public class NotificationService {
 	 * @throws ServiceException
 	 *             Caso o serviço retorne um erro.
 	 */
-	public boolean verify(HttpServletRequest request, HttpServletResponse response, BigDecimal transactionValue) throws IOException,
+	public boolean isValid(HttpServletRequest request, HttpServletResponse response, BigDecimal transactionValue) throws IOException,
 			ServiceException {
 		String transactionId = getTransactionId(request);
 		String orderId = getOrderId(request);
