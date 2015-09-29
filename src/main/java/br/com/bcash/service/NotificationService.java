@@ -16,7 +16,7 @@ public class NotificationService {
 
 	private static final String ORDER_ID_PARAM = "pedido";
 
-	private static final String STATUS_ID_PARAM = "cod_status";
+	private static final String STATUS_ID_PARAM = "status_id";
 
 	private final BasicCredentials basicCredentials;
 
