@@ -114,7 +114,7 @@ public class NotificationService {
 	}
 
 	private boolean compareValue(BigDecimal transactionValue, TransactionSearchResponse transaction) {
-		return transaction.getPaymentAmount().equals(transactionValue);
+		return transaction.getPaymentAmount().compareTo(transactionValue) == 0;
 	}
 
 	public void sendSuccess(HttpServletResponse resp) {
