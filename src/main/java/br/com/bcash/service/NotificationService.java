@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.bcash.config.Configuration;
+import br.com.bcash.config.Environment;
 import br.com.bcash.domain.transaction.TransactionStatusEnum;
 import br.com.bcash.domain.transaction.search.TransactionSearchResponse;
 import br.com.bcash.http.authentication.BasicCredentials;
@@ -17,6 +19,10 @@ public class NotificationService {
 	private static final String ORDER_ID_PARAM = "pedido";
 
 	private static final String STATUS_ID_PARAM = "status_id";
+
+	private static final String TEST_PARAM = "test";
+
+	private static final String TEST = "test";
 
 	private final BasicCredentials basicCredentials;
 
@@ -64,8 +70,17 @@ public class NotificationService {
 			return false;
 		}
 
+		if (isTest(request)) {
+			return true;
+		}
+
 		TransactionSearchResponse transaction = new TransactionService(basicCredentials).searchById(transactionId);
 		return compareStatus(status, transaction) && compareOrderId(orderId, transaction) && compareValue(transactionValue, transaction);
+	}
+
+	private boolean isTest(HttpServletRequest request) {
+		String testParameter = request.getParameter(TEST_PARAM);
+		return Environment.SANDBOX.equals(Configuration.getEnvironment()) && TEST.equals(testParameter);
 	}
 
 	public String getTransactionId(HttpServletRequest request) {

@@ -276,3 +276,30 @@ public class Notification extends HttpServlet {
 }
 
 ```
+
+### Simulando uma notificação
+Os ambientes do Bcash realizam as notificações apenas para endereços disponíveis na internet. Se seu ambiente de testes está disponível
+para a internet você pode disparar um POST de notificação acessando a interface de detalhes de uma transação na área logada do Bcash (https://sandbox.bcash.com.br).
+Caso seu ambiente não esteja disponível na internet você pode utilizar nosso simulador de notificações conforme o exemplo abaixo:
+```java
+import java.io.IOException;
+
+import br.com.bcash.domain.transaction.TransactionStatusEnum;
+import br.com.bcash.test.NotificationSimulator;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		NotificationSimulator.Notification notification = new NotificationSimulator.Notification();
+		notification.setUrl("http://localhost/notification"); // informar a url do seu servlet que receberá as notificações
+		notification.setTransactionId("710"); // informar a transação Bcash que será atualizada
+		notification.setOrderId("710"); // informar o seu identificado do pedido
+		notification.setStatus(TransactionStatusEnum.APPROVED); // informar o status a ser simulado
+
+		NotificationSimulator simulator = new NotificationSimulator();
+		String response = simulator.test(notification);
+		System.out.println(response);
+	}
+
+}
+```  
