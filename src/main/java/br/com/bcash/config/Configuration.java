@@ -1,8 +1,6 @@
 package br.com.bcash.config;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.List;
 
 import org.apache.http.Consts;
 import org.apache.http.entity.ContentType;
@@ -10,8 +8,6 @@ import org.apache.http.entity.ContentType;
 import br.com.bcash.util.PropertiesLoader;
 
 public class Configuration {
-
-	private static final List<String> environments = Arrays.asList("sandbox", "prod");
 
 	private static final String DEFAULT_ENV = "prod";
 
@@ -32,13 +28,17 @@ public class Configuration {
 	private static String resolveEnvironment() {
 		String env = PropertiesLoader.get(ENV_PROPERTY);
 		if (env != null && !env.isEmpty()) {
-			env = env.toLowerCase();
-			if (environments.contains(env)) {
+			Environment environment = Environment.fromName(env.toLowerCase());
+			if (environment != null) {
 				return env;
 			}
 		}
 
 		return DEFAULT_ENV;
+	}
+
+	public static Environment getEnvironment() {
+		return Environment.fromName(resolveEnvironment());
 	}
 
 	public static Charset getEncode() {
