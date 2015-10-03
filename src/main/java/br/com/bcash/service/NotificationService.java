@@ -25,6 +25,8 @@ public class NotificationService {
 	private static final String TEST = "test";
 
 	private final BasicCredentials basicCredentials;
+	
+	private final Environment environment;
 
 	/**
 	 * Cria service de notificações para validar as notificações recebidas do Bcash carregando as credenciais fornecidas no properties.
@@ -32,6 +34,7 @@ public class NotificationService {
 	 **/
 	public NotificationService() {
 		this.basicCredentials = BasicCredentials.loadFromProperties();
+		this.environment = Configuration.getEnvironment();
 	}
 
 	/**
@@ -42,6 +45,19 @@ public class NotificationService {
 	 */
 	public NotificationService(BasicCredentials basicCredentials) {
 		this.basicCredentials = basicCredentials;
+		this.environment = Configuration.getEnvironment();
+	}
+	
+	/**
+	 * Cria service de notificações para validar as notificações recebidas do Bcash carregando as credenciais fornecidas.
+	 * 
+	 * @param basicCredentials
+	 *            Credenciais que serão utilizadas para acessar a API REST do Bcash.
+	 * @param environment Ambiente no qual as requisões serão enviadas
+	 */
+	public NotificationService(BasicCredentials basicCredentials, Environment environment) {
+		this.basicCredentials = basicCredentials;
+		this.environment = environment;
 	}
 
 	/**
@@ -74,13 +90,13 @@ public class NotificationService {
 			return true;
 		}
 
-		TransactionSearchResponse transaction = new TransactionService(basicCredentials).searchById(transactionId);
+		TransactionSearchResponse transaction = new TransactionService(basicCredentials, environment).searchById(transactionId);
 		return compareStatus(status, transaction) && compareOrderId(orderId, transaction) && compareValue(transactionValue, transaction);
 	}
 
 	private boolean isTest(HttpServletRequest request) {
 		String testParameter = request.getParameter(TEST_PARAM);
-		return Environment.SANDBOX.equals(Configuration.getEnvironment()) && TEST.equals(testParameter);
+		return Environment.SANDBOX.equals(environment) && TEST.equals(testParameter);
 	}
 
 	public String getTransactionId(HttpServletRequest request) {
