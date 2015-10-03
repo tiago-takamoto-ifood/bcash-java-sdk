@@ -55,9 +55,11 @@ public class NotificationSimulator {
 		return builder.toString();
 	}
 
-	private HttpResponse executePost(Notification notification, List<NameValuePair> valuePairs) throws IOException,
+	private HttpResponse executePost(Notification notification,
+			List<NameValuePair> valuePairs) throws IOException,
 			ClientProtocolException {
-		HttpEntity body = new UrlEncodedFormEntity(valuePairs, Configuration.getEncode());
+		HttpEntity body = new UrlEncodedFormEntity(valuePairs,
+				Configuration.getEncode());
 
 		HttpClient client = getClient();
 		HttpPost httpPost = new HttpPost(notification.getUrl());
@@ -67,7 +69,8 @@ public class NotificationSimulator {
 
 	private CloseableHttpClient getClient() {
 		SSLConnectionSocketFactory sslConnectionSocketFactory = getSelfSignedSSLFactory();
-		return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).build();
+		return HttpClients.custom()
+				.setSSLSocketFactory(sslConnectionSocketFactory).build();
 	}
 
 	private SSLConnectionSocketFactory getSelfSignedSSLFactory() {
@@ -77,20 +80,28 @@ public class NotificationSimulator {
 			builder.loadTrustMaterial(null, new AllowAllTrustStrategy());
 			sslContext = builder.build();
 		} catch (Exception e) {
-			throw new RuntimeException("Não foi possível criar o cliente para consumir o serviço.", e);
+			throw new RuntimeException(
+					"Não foi possível criar o cliente para consumir o serviço.",
+					e);
 		}
 
-		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(
+				sslContext, NoopHostnameVerifier.INSTANCE);
 		return sslConnectionSocketFactory;
 	}
 
 	private List<NameValuePair> generateParameters(Notification notification) {
 		List<NameValuePair> valuePairs = new ArrayList<NameValuePair>();
-		valuePairs.add(new BasicNameValuePair(TRANSACTION_ID_PARAM, notification.getTransactionId()));
-		valuePairs.add(new BasicNameValuePair(ORDER_ID_PARAM, notification.getOrderId()));
-		valuePairs.add(new BasicNameValuePair(STATUS_ID_PARAM, String.valueOf(notification.getStatus().getCode())));
-		valuePairs.add(new BasicNameValuePair(STATUS_PARAM, notification.getStatus().getDescription()));
-		valuePairs.add(new BasicNameValuePair(STATUS_PARAM, notification.getStatus().getDescription()));
+		valuePairs.add(new BasicNameValuePair(TRANSACTION_ID_PARAM,
+				notification.getTransactionId()));
+		valuePairs.add(new BasicNameValuePair(ORDER_ID_PARAM, notification
+				.getOrderId()));
+		valuePairs.add(new BasicNameValuePair(STATUS_ID_PARAM, String
+				.valueOf(notification.getStatus().getCode())));
+		valuePairs.add(new BasicNameValuePair(STATUS_PARAM, notification
+				.getStatus().getDescription()));
+		valuePairs.add(new BasicNameValuePair(STATUS_PARAM, notification
+				.getStatus().getDescription()));
 		valuePairs.add(new BasicNameValuePair(TEST_PARAM, TEST));
 		return valuePairs;
 	}
@@ -141,8 +152,8 @@ public class NotificationSimulator {
 
 	class AllowAllTrustStrategy implements TrustStrategy {
 
-		@Override
-		public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+		public boolean isTrusted(X509Certificate[] chain, String authType)
+				throws CertificateException {
 			return true;
 		}
 
