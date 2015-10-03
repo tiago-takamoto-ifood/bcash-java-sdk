@@ -13,6 +13,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.message.BasicNameValuePair;
 
 import br.com.bcash.config.Configuration;
+import br.com.bcash.config.Environment;
 import br.com.bcash.domain.error.ErrorList;
 import br.com.bcash.domain.transaction.TransactionRequest;
 import br.com.bcash.domain.transaction.TransactionResponse;
@@ -37,9 +38,16 @@ class TransactionCreateService {
 	private static final String CREATE_SERVICE_ENCODE_PARAMETER = "encode";
 
 	private OAuthCredentials oauthCredentials;
+	
+	private Environment environment;
 
 	public TransactionCreateService(OAuthCredentials oauthCredentials) {
 		this.oauthCredentials = oauthCredentials;
+	}
+	
+	public TransactionCreateService environment(Environment environment) {
+		this.environment = environment;
+		return this;
 	}
 
 	public TransactionResponse create(TransactionRequest request) throws IOException, ServiceException {
@@ -61,7 +69,7 @@ class TransactionCreateService {
 	private HttpRequest generateCreateTransactionRequest(TransactionRequest request)
 			throws UnsupportedEncodingException {
 		HttpRequest httpRequest = new HttpRequest();
-		httpRequest.setUrl(Configuration.getApiURL() + CREATION_SERVICE_URL);
+		httpRequest.setUrl(Configuration.getApiUrl(environment) + CREATION_SERVICE_URL);
 
 		Map<String, String> authentication = OAuth.generateHeader(oauthCredentials);
 		httpRequest.setHeaders(authentication);

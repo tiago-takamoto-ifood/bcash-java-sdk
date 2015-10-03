@@ -33,6 +33,13 @@ Para utilizar o ambiente de testes (sandbox) adicione a seguinte propriedade ao 
 bcash.env = sandbox # use prod para o ambiente real 
 ```
 
+Ou cofigure dinamicamente informando o Environment como argumento no método contrutor dos `services`. 
+Utilize `Environment.PRODUCTION` para a ambiente real e `Environment.SANDBOX` para o ambiente de testes.
+Por exemplo:
+```java
+TransactionService transactionService = new TransactionService(oAuthcredential, basicCredential, Environment.SANDBOX);
+``` 
+
 ### Criando uma transação de boleto
 
 ```java
