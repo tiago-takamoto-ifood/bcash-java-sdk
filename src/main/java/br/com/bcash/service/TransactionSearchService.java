@@ -11,6 +11,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
 
 import br.com.bcash.config.Configuration;
+import br.com.bcash.config.Environment;
 import br.com.bcash.domain.transaction.search.SearchError;
 import br.com.bcash.domain.transaction.search.TransactionSearchErrorAdapter;
 import br.com.bcash.domain.transaction.search.TransactionSearchResponse;
@@ -43,8 +44,15 @@ class TransactionSearchService {
 
 	private final BasicCredentials basicCredentials;
 
+	private Environment environment;
+
 	public TransactionSearchService(BasicCredentials basicCredentials) {
 		this.basicCredentials = basicCredentials;
+	}
+	
+	public TransactionSearchService environment(Environment environment) {
+		this.environment = environment;
+		return this;
 	}
 
 	public TransactionSearchResponse searchById(String transactionId) throws IOException, ServiceException {
@@ -86,7 +94,7 @@ class TransactionSearchService {
 
 	private HttpRequest generateSearchRequest(String key, String value) {
 		HttpRequest request = new HttpRequest();
-		request.setUrl(Configuration.getURL() + SEARCH_SERVICE_URL);
+		request.setUrl(Configuration.getURL(environment) + SEARCH_SERVICE_URL);
 
 		request.setHeaders(Basic.generateHeader(basicCredentials));
 

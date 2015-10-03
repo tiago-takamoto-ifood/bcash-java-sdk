@@ -9,28 +9,34 @@ import br.com.bcash.util.PropertiesLoader;
 
 public class Configuration {
 
-	private static final String DEFAULT_ENV = "prod";
+	private static final Environment DEFAULT_ENV = Environment.PRODUCTION;
 
 	private static final String ENV_PROPERTY = "bcash.env";
 
 	private static final String DEFAULT_CONTENT_TYPE = ContentType.APPLICATION_JSON.getMimeType();
 
 	public static String getApiURL() {
-		String env = resolveEnvironment();
-		return PropertiesLoader.getConfig("env." + env + ".apiUrl");
+		return getApiUrl(resolveEnvironment());
+	}
+	
+	public static String getApiUrl(Environment environment) {
+		return PropertiesLoader.getConfig("env." + environment.getName() + ".apiUrl");
 	}
 
 	public static String getURL() {
-		String env = resolveEnvironment();
-		return PropertiesLoader.getConfig("env." + env + ".url");
+		return getURL(resolveEnvironment());
+	}
+	
+	public static String getURL(Environment environment) {
+		return PropertiesLoader.getConfig("env." + environment.getName() + ".url");
 	}
 
-	private static String resolveEnvironment() {
+	private static Environment resolveEnvironment() {
 		String env = PropertiesLoader.get(ENV_PROPERTY);
 		if (env != null && !env.isEmpty()) {
 			Environment environment = Environment.fromName(env.toLowerCase());
 			if (environment != null) {
-				return env;
+				return environment;
 			}
 		}
 
@@ -38,7 +44,7 @@ public class Configuration {
 	}
 
 	public static Environment getEnvironment() {
-		return Environment.fromName(resolveEnvironment());
+		return resolveEnvironment();
 	}
 
 	public static Charset getEncode() {
@@ -48,4 +54,5 @@ public class Configuration {
 	public static String getDefaultContentType() {
 		return DEFAULT_CONTENT_TYPE;
 	}
+
 }

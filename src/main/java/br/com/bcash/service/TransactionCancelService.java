@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.bcash.config.Configuration;
+import br.com.bcash.config.Environment;
 import br.com.bcash.domain.error.ErrorList;
 import br.com.bcash.domain.transaction.cancel.TransactionCancelResponse;
 import br.com.bcash.http.HttpConnection;
@@ -21,8 +22,15 @@ class TransactionCancelService {
 
 	private BasicCredentials basicCredentials;
 
+	private Environment environment;
+
 	public TransactionCancelService(BasicCredentials basicCredentials) {
 		this.basicCredentials = basicCredentials;
+	}
+	
+	public TransactionCancelService environment(Environment environment) {
+		this.environment = environment;
+		return this;
 	}
 
 	public TransactionCancelResponse cancel(String transactionId) throws IOException, ServiceException {
@@ -42,7 +50,7 @@ class TransactionCancelService {
 
 	private HttpRequest generateCancellationRequest(String transactionId) {
 		HttpRequest request = new HttpRequest();
-		request.setUrl(Configuration.getApiURL() + String.format(CANCELLATION_SERVICE_URL, transactionId));
+		request.setUrl(Configuration.getApiUrl(environment) + String.format(CANCELLATION_SERVICE_URL, transactionId));
 
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.putAll(Basic.generateHeader(basicCredentials));
