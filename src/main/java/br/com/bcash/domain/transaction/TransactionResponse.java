@@ -17,6 +17,8 @@ public class TransactionResponse {
 	private String message;
 
 	private Integer cancellationCode;
+	
+	private String permanentToken;
 
 	/**
 	 * Recupera o identificador da transação no Bcash.
@@ -135,6 +137,22 @@ public class TransactionResponse {
 	public Integer getCancellationCode() {
 		return cancellationCode;
 	}
+	
+	/**
+	 * Recupera token que representa o cartão de crédito salvo para compras futuras. Pode ser utilizado em soluções OneClickBuy. 
+	 * @return token do cartão de crédito
+	 */
+	public String getPermanentToken() {
+		return permanentToken;
+	}
+	
+	/**
+	 * AStribui token que representa o cartão de crédito salvo para compras futuras.
+	 * @param permanentToken token do cartão de crédito
+	 */
+	public void setPermanentToken(String permanentToken) {
+		this.permanentToken = permanentToken;
+	}
 
 	/**
 	 * 
@@ -151,4 +169,5 @@ public class TransactionResponse {
 	public String toString() {
 		return new ToStringBuilder(this).append("transaction", this.getTransactionId()).toString();
 	}
+
 }
