@@ -29,8 +29,10 @@ public class PropertiesLoader {
 
 		try {
 			final InputStream stream = PropertiesLoader.class.getClassLoader().getResourceAsStream(resorceFileName);
-			properties.load(stream);
-			stream.close();
+			if (stream != null) {
+				properties.load(stream);
+				stream.close();
+			}
 		} catch (IOException e) {
 			throw new RuntimeException("O arquivo de configuração do bcash não pode ser aberto: " + resorceFileName);
 		}
