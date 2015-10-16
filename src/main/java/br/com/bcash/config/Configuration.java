@@ -18,7 +18,7 @@ public class Configuration {
 	public static String getApiURL() {
 		return getApiUrl(resolveEnvironment());
 	}
-	
+
 	public static String getApiUrl(Environment environment) {
 		return PropertiesLoader.getConfig("env." + environment.getName() + ".apiUrl");
 	}
@@ -26,7 +26,7 @@ public class Configuration {
 	public static String getURL() {
 		return getURL(resolveEnvironment());
 	}
-	
+
 	public static String getURL(Environment environment) {
 		return PropertiesLoader.getConfig("env." + environment.getName() + ".url");
 	}
@@ -48,7 +48,7 @@ public class Configuration {
 	}
 
 	public static Charset getEncode() {
-		return Consts.UTF_8;
+		return Consts.ISO_8859_1;
 	}
 
 	public static String getDefaultContentType() {

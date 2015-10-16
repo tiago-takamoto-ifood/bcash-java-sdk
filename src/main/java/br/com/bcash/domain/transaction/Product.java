@@ -22,6 +22,10 @@ public class Product {
 
 	private Integer weight;
 
+	private String establishment;
+
+	private String category;
+
 	/**
 	 * Recupera o código que identifica o produto em sua loja.
 	 * 
@@ -200,4 +204,19 @@ public class Product {
 		this.weight = weight;
 	}
 
+	public String getEstablishment() {
+		return establishment;
+	}
+
+	public void setEstablishment(String establishment) {
+		this.establishment = establishment;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 }

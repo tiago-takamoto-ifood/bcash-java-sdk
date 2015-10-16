@@ -36,7 +36,11 @@ public class Customer {
 
 	private String ipAddress;
 
-	private String deviceFingerprint;
+	private String fingerprint;
+
+	private String signupOrigin;
+
+	private Date signupDateStore;
 
 	public String getMail() {
 		return mail;
@@ -166,12 +170,27 @@ public class Customer {
 		this.ipAddress = ipAddress;
 	}
 
-	public String getDeviceFingerprint() {
-		return deviceFingerprint;
+	public String getFingerprint() {
+		return fingerprint;
 	}
 
-	public void setDeviceFingerprint(String deviceFingerprint) {
-		this.deviceFingerprint = deviceFingerprint;
+	public void setFingerprint(String fingerprint) {
+		this.fingerprint = fingerprint;
 	}
 
+	public String getSignupOrigin() {
+		return signupOrigin;
+	}
+
+	public void setSignupOrigin(String signupOrigin) {
+		this.signupOrigin = signupOrigin;
+	}
+
+	public Date getSignupDateStore() {
+		return signupDateStore;
+	}
+
+	public void setSignupDateStore(Date signupDateStore) {
+		this.signupDateStore = signupDateStore;
+	}
 }
