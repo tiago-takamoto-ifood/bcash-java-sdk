@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.bcash</groupId>
 	<artifactId>bcash-java-sdk</artifactId>
-	<version>3.6.0</version>
+	<version>3.7.0</version>
 	<name>bcash-java-sdk</name>
 	<description>Bcash SDK para integracao com as APIs REST.</description>
 	<url>http://bcash.com.br/</url>

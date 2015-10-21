@@ -309,4 +309,67 @@ public class Main {
 	}
 
 }
-```  
+```
+
+### Calculando parcelamento
+
+Para fazer o cálculo do parcelamento dos pagamentos é necessário informar o email da loja e o valor do pagamento. É possível limitar o número de parcelas e ignorar o desconto configurado no Banking. Segue abaixo um exemplo de utilização:
+
+```java
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import br.com.bcash.domain.error.ResponseError;
+import br.com.bcash.domain.installment.CalculateInstallmentsRequest;
+import br.com.bcash.domain.installment.CalculateInstallmentsResponse;
+import br.com.bcash.domain.installment.Installment;
+import br.com.bcash.domain.installment.PaymentMethod;
+import br.com.bcash.domain.installment.PaymentType;
+import br.com.bcash.http.authentication.BasicCredentials;
+import br.com.bcash.service.InstallmentService;
+import br.com.bcash.service.ServiceException;
+
+public class InstallmentsCalculate {
+
+	public static void main(String[] args) {
+
+		InstallmentService service = new InstallmentService();
+
+		CalculateInstallmentsResponse response = null;
+		try {
+			CalculateInstallmentsRequest request = new CalculateInstallmentsRequest();
+			request.setSellerEmail("lojamodelo@pagamentodigital.com.br");
+			request.setAmount(new BigDecimal("100.00"));
+			request.setMaxInstallments(8);
+			request.setIgnoreScheduledDiscount(true);
+			response = service.calculate(request);
+		} catch (ServiceException e) {
+			System.out.println("O serviço retornou um erro:");
+			for (ResponseError error : e.getErrors()) {
+				System.out.println(error.getCode() + " - " + error.getDescription());
+			}
+		} catch (IOException e) {
+			System.out.println("Erro de comunicação:" + e);
+		}
+
+		if (response != null) {
+			for (PaymentType paymentType : response.getPaymentTypes()) {
+				System.out.println("Tipo: " + paymentType.getName());
+				for (PaymentMethod paymentMethod : paymentType.getPaymentMethods()) {
+					System.out.println("  Método:" + paymentMethod.getName());
+					System.out.println("    id: " + paymentMethod.getId());
+					System.out.println("    taxa mensal: " + paymentMethod.getMonthlyRate());
+					for (Installment installment : paymentMethod.getInstallments()) {
+						System.out.println("    Parcelamento: " + installment.getNumber());
+						System.out.println("      valor total: " + installment.getAmount());
+						System.out.println("      valor por parcela: " + installment.getInstallmentAmount());
+						System.out.println("      taxa: " + installment.getRate().toPlainString());
+					}
+				}
+			}
+		}
+	}
+}
+```
+
+  
