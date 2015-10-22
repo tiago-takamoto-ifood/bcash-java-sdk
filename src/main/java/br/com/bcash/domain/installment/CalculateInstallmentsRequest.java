@@ -4,21 +4,11 @@ import java.math.BigDecimal;
 
 public class CalculateInstallmentsRequest {
 
-	private String sellerEmail;
-
 	private BigDecimal amount;
 
 	private Integer maxInstallments;
 
 	private Boolean ignoreScheduledDiscount;
-
-	public String getSellerEmail() {
-		return sellerEmail;
-	}
-
-	public void setSellerEmail(String authSellerEmail) {
-		this.sellerEmail = authSellerEmail;
-	}
 
 	public BigDecimal getAmount() {
 		return amount;

@@ -70,20 +70,16 @@ public class InstallmentService {
 
 	private String generateCalculateParams(CalculateInstallmentsRequest calculateRequest) {
 
-		if (calculateRequest.getSellerEmail() == null) {
-			throw new IllegalArgumentException("O email do vendedor não pode ser null.");
-		}
-
-		String params = "?authSellerEmail=" + calculateRequest.getSellerEmail();
+		String params = "?";
 
 		if (calculateRequest.getAmount() != null) {
-			params += "&amount=" + calculateRequest.getAmount();
+			params += "amount=" + calculateRequest.getAmount() + "&";
 		}
 		if (calculateRequest.getMaxInstallments() != null) {
-			params += "&maxInstallments=" + calculateRequest.getMaxInstallments();
+			params += "maxInstallments=" + calculateRequest.getMaxInstallments() + "&";
 		}
 		if (calculateRequest.getIgnoreScheduledDiscount() != null) {
-			params += "&ignoreScheduledDiscount=" + calculateRequest.getIgnoreScheduledDiscount();
+			params += "ignoreScheduledDiscount=" + calculateRequest.getIgnoreScheduledDiscount();
 		}
 
 		return params;
