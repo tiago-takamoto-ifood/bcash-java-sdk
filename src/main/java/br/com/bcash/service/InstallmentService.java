@@ -1,8 +1,14 @@
 package br.com.bcash.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
 
 import br.com.bcash.config.Configuration;
 import br.com.bcash.config.Environment;
@@ -58,7 +64,7 @@ public class InstallmentService {
 	private HttpRequest generateCalculateRequest(CalculateInstallmentsRequest calculateRequest) {
 
 		HttpRequest request = new HttpRequest();
-		request.setUrl(Configuration.getApiUrl(environment) + "/installments" + generateCalculateParams(calculateRequest));
+		request.setUrl(Configuration.getApiUrl(environment) + "installments?" + generateCalculateParams(calculateRequest));
 
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.putAll(Basic.generateHeader(basicCredentials));
@@ -69,19 +75,19 @@ public class InstallmentService {
 	}
 
 	private String generateCalculateParams(CalculateInstallmentsRequest calculateRequest) {
-
-		String params = "?";
-
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		
 		if (calculateRequest.getAmount() != null) {
-			params += "amount=" + calculateRequest.getAmount() + "&";
+			parameters.add(new BasicNameValuePair("amount", calculateRequest.getAmount().toString()));
 		}
+		
 		if (calculateRequest.getMaxInstallments() != null) {
-			params += "maxInstallments=" + calculateRequest.getMaxInstallments() + "&";
+			parameters.add(new BasicNameValuePair("maxInstallments", calculateRequest.getMaxInstallments().toString()));
 		}
 		if (calculateRequest.getIgnoreScheduledDiscount() != null) {
-			params += "ignoreScheduledDiscount=" + calculateRequest.getIgnoreScheduledDiscount();
+			parameters.add(new BasicNameValuePair("ignoreScheduledDiscount", calculateRequest.getIgnoreScheduledDiscount().toString()));
 		}
 
-		return params;
+		return URLEncodedUtils.format(parameters, Configuration.getEncode());
 	}
 }
