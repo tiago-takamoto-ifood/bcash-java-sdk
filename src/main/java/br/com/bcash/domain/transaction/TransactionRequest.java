@@ -68,6 +68,8 @@ public class TransactionRequest {
 
 	private String bankSlipDescription;
 
+	private String salesChannelFControl;
+
 	/**
 	 * Recupera o e-mail da loja cadastrada no Bcash.
 	 * 
@@ -536,4 +538,11 @@ public class TransactionRequest {
 		this.bankSlipDescription = bankSlipDescription;
 	}
 
+	public String getSalesChannelFControl() {
+		return salesChannelFControl;
+	}
+
+	public void setSalesChannelFControl(String salesChannelFControl) {
+		this.salesChannelFControl = salesChannelFControl;
+	}
 }
