@@ -313,7 +313,7 @@ public class Main {
 
 ### Calculando parcelamento
 
-Para fazer o cálculo do parcelamento dos pagamentos é necessário informar o email da loja e o valor do pagamento. É possível limitar o número de parcelas e ignorar o desconto configurado no Banking. Segue abaixo um exemplo de utilização:
+Para fazer o cálculo do parcelamento dos pagamentos é necessário informar o valor do pagamento. É possível limitar o número de parcelas e ignorar o desconto configurado no Banking. Segue abaixo um exemplo de utilização:
 
 ```java
 import java.io.IOException;
@@ -338,7 +338,6 @@ public class InstallmentsCalculate {
 		CalculateInstallmentsResponse response = null;
 		try {
 			CalculateInstallmentsRequest request = new CalculateInstallmentsRequest();
-			request.setSellerEmail("lojamodelo@pagamentodigital.com.br");
 			request.setAmount(new BigDecimal("100.00"));
 			request.setMaxInstallments(8);
 			request.setIgnoreScheduledDiscount(true);
