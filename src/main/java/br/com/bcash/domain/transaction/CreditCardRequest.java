@@ -12,6 +12,8 @@ public class CreditCardRequest {
 
 	private Integer maturityYear;
 
+	private String softDescriptor;
+	
 	/**
 	 * Recupera o nome do titular do cartão de crédito.
 	 * 
@@ -110,5 +112,21 @@ public class CreditCardRequest {
 	 */
 	public void setMaturityYear(final Integer maturityYear) {
 		this.maturityYear = maturityYear;
+	}
+	
+	public String getSoftDescriptor() {
+		return softDescriptor;
+	}
+
+	/**
+	 * Informação do nome da loja que será impresso no extrato do cartão do comprador. O vendedor precisa estar configurado para que esta
+	 * informação chegue a operadora. O tamanho máximo da informação depende da operadora, geralmente varia entre 13 e 22 dígitos, então
+	 * dependendo do caso a informação passada neste campo será truncada a direita
+	 * 
+	 * @param softDescriptor
+	 */
+
+	public void setSoftDescriptor(String softDescriptor) {
+		this.softDescriptor = softDescriptor;
 	}
 }
