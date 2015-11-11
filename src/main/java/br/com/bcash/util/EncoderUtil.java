@@ -21,9 +21,9 @@ public class EncoderUtil {
 		}
 	}
 
-	public static String urlDecode(String data) throws DecoderException {
+	public static String urlDecode(String data, String encode) throws DecoderException {
 		try {
-			return new URLCodec().decode(data, ENCODE);
+			return new URLCodec().decode(data, encode);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("O charset utilizado não está disponível.", e);
 		}
