@@ -22,6 +22,9 @@ import br.com.bcash.http.authentication.Basic;
 import br.com.bcash.http.authentication.BasicCredentials;
 import br.com.bcash.util.ContentTypeUtil;
 import br.com.bcash.util.JsonUtil;
+import br.com.bcash.util.XmlErrorUtil;
+
+import com.google.gson.JsonSyntaxException;
 
 public class InstallmentService {
 
@@ -55,10 +58,20 @@ public class InstallmentService {
 		HttpResponse httpResponse = HttpConnection.get(httpRequest);
 
 		if (!httpResponse.isSuccess()) {
-			throw new ServiceException(JsonUtil.fromJson(httpResponse.getBody(), ErrorList.class));
+			ErrorList errorList = adaptError(httpResponse.getBody());
+			throw new ServiceException(errorList);
 		}
 
 		return JsonUtil.fromJson(httpResponse.getBody(), CalculateInstallmentsResponse.class);
+	}
+
+	private ErrorList adaptError(String body) {
+
+		try {
+			return JsonUtil.fromJson(body, ErrorList.class);
+		} catch (JsonSyntaxException e) {
+			return XmlErrorUtil.fromXml(body);
+		}
 	}
 
 	private HttpRequest generateCalculateRequest(CalculateInstallmentsRequest calculateRequest) {
@@ -76,11 +89,11 @@ public class InstallmentService {
 
 	private String generateCalculateParams(CalculateInstallmentsRequest calculateRequest) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		
+
 		if (calculateRequest.getAmount() != null) {
 			parameters.add(new BasicNameValuePair("amount", calculateRequest.getAmount().toString()));
 		}
-		
+
 		if (calculateRequest.getMaxInstallments() != null) {
 			parameters.add(new BasicNameValuePair("maxInstallments", calculateRequest.getMaxInstallments().toString()));
 		}
