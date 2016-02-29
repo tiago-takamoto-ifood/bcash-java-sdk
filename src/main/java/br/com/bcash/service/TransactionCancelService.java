@@ -15,6 +15,9 @@ import br.com.bcash.http.authentication.Basic;
 import br.com.bcash.http.authentication.BasicCredentials;
 import br.com.bcash.util.ContentTypeUtil;
 import br.com.bcash.util.JsonUtil;
+import br.com.bcash.util.XmlErrorUtil;
+
+import com.google.gson.JsonSyntaxException;
 
 class TransactionCancelService {
 
@@ -27,7 +30,7 @@ class TransactionCancelService {
 	public TransactionCancelService(BasicCredentials basicCredentials) {
 		this.basicCredentials = basicCredentials;
 	}
-	
+
 	public TransactionCancelService environment(Environment environment) {
 		this.environment = environment;
 		return this;
@@ -42,10 +45,20 @@ class TransactionCancelService {
 		HttpResponse httpResponse = HttpConnection.post(httpRequest);
 
 		if (!httpResponse.isSuccess()) {
-			throw new ServiceException(JsonUtil.fromJson(httpResponse.getBody(), ErrorList.class));
+			ErrorList errorList = adaptError(httpResponse.getBody());
+			throw new ServiceException(errorList);
 		}
 
 		return JsonUtil.fromJson(httpResponse.getBody(), TransactionCancelResponse.class);
+	}
+
+	private ErrorList adaptError(String body) {
+
+		try {
+			return JsonUtil.fromJson(body, ErrorList.class);
+		} catch (JsonSyntaxException e) {
+			return XmlErrorUtil.fromXml(body);
+		}
 	}
 
 	private HttpRequest generateCancellationRequest(String transactionId) {

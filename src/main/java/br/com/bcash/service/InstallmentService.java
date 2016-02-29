@@ -1,8 +1,14 @@
 package br.com.bcash.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
 
 import br.com.bcash.config.Configuration;
 import br.com.bcash.config.Environment;
@@ -16,6 +22,9 @@ import br.com.bcash.http.authentication.Basic;
 import br.com.bcash.http.authentication.BasicCredentials;
 import br.com.bcash.util.ContentTypeUtil;
 import br.com.bcash.util.JsonUtil;
+import br.com.bcash.util.XmlErrorUtil;
+
+import com.google.gson.JsonSyntaxException;
 
 public class InstallmentService {
 
@@ -49,16 +58,26 @@ public class InstallmentService {
 		HttpResponse httpResponse = HttpConnection.get(httpRequest);
 
 		if (!httpResponse.isSuccess()) {
-			throw new ServiceException(JsonUtil.fromJson(httpResponse.getBody(), ErrorList.class));
+			ErrorList errorList = adaptError(httpResponse.getBody());
+			throw new ServiceException(errorList);
 		}
 
 		return JsonUtil.fromJson(httpResponse.getBody(), CalculateInstallmentsResponse.class);
 	}
 
+	private ErrorList adaptError(String body) {
+
+		try {
+			return JsonUtil.fromJson(body, ErrorList.class);
+		} catch (JsonSyntaxException e) {
+			return XmlErrorUtil.fromXml(body);
+		}
+	}
+
 	private HttpRequest generateCalculateRequest(CalculateInstallmentsRequest calculateRequest) {
 
 		HttpRequest request = new HttpRequest();
-		request.setUrl(Configuration.getApiUrl(environment) + "/installments" + generateCalculateParams(calculateRequest));
+		request.setUrl(Configuration.getApiUrl(environment) + "installments?" + generateCalculateParams(calculateRequest));
 
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.putAll(Basic.generateHeader(basicCredentials));
@@ -69,19 +88,19 @@ public class InstallmentService {
 	}
 
 	private String generateCalculateParams(CalculateInstallmentsRequest calculateRequest) {
-
-		String params = "?";
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 
 		if (calculateRequest.getAmount() != null) {
-			params += "amount=" + calculateRequest.getAmount() + "&";
-		}
-		if (calculateRequest.getMaxInstallments() != null) {
-			params += "maxInstallments=" + calculateRequest.getMaxInstallments() + "&";
-		}
-		if (calculateRequest.getIgnoreScheduledDiscount() != null) {
-			params += "ignoreScheduledDiscount=" + calculateRequest.getIgnoreScheduledDiscount();
+			parameters.add(new BasicNameValuePair("amount", calculateRequest.getAmount().toString()));
 		}
 
-		return params;
+		if (calculateRequest.getMaxInstallments() != null) {
+			parameters.add(new BasicNameValuePair("maxInstallments", calculateRequest.getMaxInstallments().toString()));
+		}
+		if (calculateRequest.getIgnoreScheduledDiscount() != null) {
+			parameters.add(new BasicNameValuePair("ignoreScheduledDiscount", calculateRequest.getIgnoreScheduledDiscount().toString()));
+		}
+
+		return URLEncodedUtils.format(parameters, Configuration.getEncode());
 	}
 }
