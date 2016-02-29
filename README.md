@@ -132,6 +132,28 @@ transaction.setCreditCard(creditCardRequest);
 /* ... */
 ```
 
+### Enviando softDescriptor em uma compra com cartão de crédito
+
+Se o vendedor estiver configurado para tanto, é possível informar o softDescriptor em uma transação de 
+cartão. O tamanho máximo da informação depende da operadora, geralmente varia entre 13 e 22 dígitos,
+então dependendo do caso a informação passada neste campo será truncada a direita.
+Segue abaixo um exemplo de utilização:
+
+```java
+/* ... */
+transaction.setPaymentMethod(PaymentMethodEnum.VISA); // ou PaymentMethodEnum.fromCode(1);
+
+CreditCardRequest creditCardRequest = new CreditCardRequest();
+creditCardRequest.setHolder("JOAO DA SILVA");
+creditCardRequest.setNumber("4111111111111111");
+creditCardRequest.setMaturityMonth(12);
+creditCardRequest.setMaturityYear(2018);
+creditCardRequest.setSecurityCode("123");
+creditCardRequest.setSoftDescriptor("Nome fantasia da loja");
+transaction.setCreditCard(creditCardRequest);
+/* ... */
+```
+
 ### Adicionando comissionamento (Transações dependentes)
 
 Você pode especificar até seis contas para receber comissionamento caso a transação seja aprovada.
