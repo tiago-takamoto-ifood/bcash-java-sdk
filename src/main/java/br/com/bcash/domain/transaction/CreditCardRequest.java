@@ -13,11 +13,7 @@ public class CreditCardRequest {
 	private Integer maturityYear;
 
 	private String softDescriptor;
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> bbf0e6ec89847478d67af017390370de8e61f1c3
 	/**
 	 * Recupera o nome do titular do cartão de crédito.
 	 * 
@@ -117,11 +113,7 @@ public class CreditCardRequest {
 	public void setMaturityYear(final Integer maturityYear) {
 		this.maturityYear = maturityYear;
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> bbf0e6ec89847478d67af017390370de8e61f1c3
 	public String getSoftDescriptor() {
 		return softDescriptor;
 	}
